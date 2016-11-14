@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "LevelDB.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,24 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"leveldb_demo.ldb"];
+    LevelDB *db = [LevelDB levelDBWithPath:dbPath];
+    
+    //存储字符串
+    [db setString:@"成都" forKey:@"city"];
+    
+    //存储基本类型
+    [db setInt:13579 forKey:@"count"];
+    
+    
+    
+    NSLog(@"城市:%@",[db stringForKey:@"city"]);
+    NSLog(@"数量:%lld",[db intForKey:@"count"]);
+
+
+    
     return YES;
 }
 
